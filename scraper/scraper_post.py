@@ -6,7 +6,7 @@ import pyautogui
 import pandas
 
 
-def scraper_post():
+def scraper_post(url):
     options = webdriver.ChromeOptions()
 
     # Чтобы появлялось окно гугл-траслейта для выбора языка
@@ -20,7 +20,7 @@ def scraper_post():
     driver = webdriver.Chrome(options=options, executable_path='/usr/bin/chromedriver')
 
     # Сюда будем подставлять ссылки для парсинга
-    driver.get('https://www.digitalocean.com/blog/how-to-deploy-to-digitalocean-kubernetes-with-github-actions/')
+    driver.get(url)
 
     # Нажимаем на "Русский" во всплывающем окне гугл-траслейта с помощью кнопки F6 и клавиши влево
     time.sleep(1)
@@ -44,6 +44,11 @@ def scraper_post():
 
     print(title)
     print(body_post)
+    result = pandas.DataFrame([[title, body_post]],
+                              columns=["title", "body_post", ])
+    result.to_excel(title + '.xlsx')
+
+
 
     # Закрываем браузер
     # TODO:: может не надо закрывать браузер и просто парсить дальше?
@@ -51,4 +56,5 @@ def scraper_post():
 
 
 if __name__ == "__main__":
-    scraper_post()
+    url="https://www.digitalocean.com/blog/magento-on-digitalocean---a-winning-combination"
+    scraper_post(url)
