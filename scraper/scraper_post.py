@@ -37,7 +37,7 @@ def scraper_post(url):
         action.perform()
     time.sleep(1)
 
-    # Распарсим тсраницу на элементы
+    # Распарсим сраницу на элементы
     title = driver.find_element_by_xpath('//*[@id="gatsby-focus-wrapper"]/div/div[1]/div/div[2]/div/a/h1').text
     body_post = driver.find_element_by_xpath(
         '//*[@id="gatsby-focus-wrapper"]/div/div[1]/div/div[2]/div/div[4]').get_attribute('outerHTML')
@@ -56,5 +56,5 @@ def scraper_post(url):
 
 
 if __name__ == "__main__":
-    url="https://www.digitalocean.com/blog/magento-on-digitalocean---a-winning-combination"
+    url="https://www.digitalocean.com/blog/how-to-conduct-effective-code-reviews"
     scraper_post(url)
