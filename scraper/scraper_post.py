@@ -3,6 +3,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver import ActionChains
 import time
 import pyautogui
+import pandas
 
 
 def scraper_post():
@@ -14,10 +15,14 @@ def scraper_post():
         "translate": {"enabled": "True"}
     }
     options.add_experimental_option("prefs", prefs)
+
+    # Указываем опции выхова браузера и путь до драйвера в системе
     driver = webdriver.Chrome(options=options, executable_path='/usr/bin/chromedriver')
+
+    # Сюда будем подставлять ссылки для парсинга
     driver.get('https://www.digitalocean.com/blog/how-to-deploy-to-digitalocean-kubernetes-with-github-actions/')
 
-    # Нажать на "Русский" во всплывающем окне гугл-траслейта
+    # Нажимаем на "Русский" во всплывающем окне гугл-траслейта с помощью кнопки F6 и клавиши влево
     time.sleep(1)
     pyautogui.hotkey("f6")
     time.sleep(1)
@@ -30,14 +35,18 @@ def scraper_post():
         action.send_keys(Keys.DOWN)
         time.sleep(.5)
         action.perform()
-
     time.sleep(1)
 
+    # Распарсим тсраницу на элементы
     title = driver.find_element_by_xpath('//*[@id="gatsby-focus-wrapper"]/div/div[1]/div/div[2]/div/a/h1').text
-    body = driver.find_element_by_xpath('//*[@id="gatsby-focus-wrapper"]/div/div[1]/div/div[2]/div/div[4]').text
-    print(title)
-    print(body)
+    body_post = driver.find_element_by_xpath(
+        '//*[@id="gatsby-focus-wrapper"]/div/div[1]/div/div[2]/div/div[4]').get_attribute('outerHTML')
 
+    print(title)
+    print(body_post)
+
+    # Закрываем браузер
+    # TODO:: может не надо закрывать браузер и просто парсить дальше?
     driver.quit()
 
 
