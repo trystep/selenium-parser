@@ -5,6 +5,8 @@ import time
 import pyautogui
 import pandas
 
+from scraper.parser_excel import parser_url
+
 
 def scraper_post(url):
     options = webdriver.ChromeOptions()
@@ -49,13 +51,16 @@ def scraper_post(url):
                               columns=["title", "body_post", ])
     result.to_excel(title + '.xlsx')
 
-
-
     # Закрываем браузер
     # TODO:: может не надо закрывать браузер и просто парсить дальше?
     driver.quit()
 
 
 if __name__ == "__main__":
-    url="https://superuser.com/questions/467565/what-would-happen-if-i-changed-my-hostname-to-localhost"
-    scraper_post(url)
+    # Указываем кол-во постов, которые хотим спарсить
+    count = 2
+    i = 1
+    while i < count:
+        url = parser_url(i)
+        scraper_post(url)
+        i += 1
