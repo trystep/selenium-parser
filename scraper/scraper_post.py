@@ -41,18 +41,17 @@ def scraper_post(url):
     time.sleep(1)
 
     # Распарсим сраницу на элементы
-    title = driver.find_element_by_xpath('//*[@id="question-header"]/h1/a').text
-    question = driver.find_element_by_xpath(
-        '//*[@id="question"]/div[2]/div[2]/div[1]').get_attribute('outerHTML')
+    # Получаем заголовок поста
+    h1 = driver.find_element_by_css_selector("#question-header > h1 > a").text
+    # Получаем вопрос и ответы
+    question_and_answers = driver.find_element_by_css_selector('#mainbar').get_attribute('outerHTML')
+    result = pandas.DataFrame([[h1, question_and_answers, ]],
+                              columns=["h1", "question_and_answers", ])
 
-    print(title)
-    print(question)
-    result = pandas.DataFrame([[title, question]],
-                              columns=["title", "body_post", ])
-    result.to_excel(title + '.xlsx')
+    # Сохраним результаты в Excel
+    result.to_excel(h1 + '.xlsx')
 
     # Закрываем браузер
-    # TODO:: может не надо закрывать браузер и просто парсить дальше?
     driver.quit()
 
 
@@ -61,6 +60,7 @@ if __name__ == "__main__":
     count = 2
     i = 1
     while i < count:
+        print("Сейчас парсится ссылка с номером " + str(i))
         url = parser_url(i)
         scraper_post(url)
         i += 1
