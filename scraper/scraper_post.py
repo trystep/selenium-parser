@@ -29,22 +29,23 @@ def scraper_post(url):
     pyautogui.press('left')
     time.sleep(2)
 
-    # Прокрутка страницы вниз
+    # Прокрутка страницы вниз, указываем кол-во нажатий вниз на странице
+    count = 25
     action = ActionChains(driver)
-    for i in range(25):
+    for i in range(count):
         action.send_keys(Keys.DOWN)
         time.sleep(.5)
         action.perform()
     time.sleep(1)
 
     # Распарсим сраницу на элементы
-    title = driver.find_element_by_xpath('//*[@id="gatsby-focus-wrapper"]/div/div[1]/div/div[2]/div/a/h1').text
-    body_post = driver.find_element_by_xpath(
-        '//*[@id="gatsby-focus-wrapper"]/div/div[1]/div/div[2]/div/div[4]').get_attribute('outerHTML')
+    title = driver.find_element_by_xpath('//*[@id="question-header"]/h1/a').text
+    question = driver.find_element_by_xpath(
+        '//*[@id="question"]/div[2]/div[2]/div[1]').get_attribute('outerHTML')
 
     print(title)
-    print(body_post)
-    result = pandas.DataFrame([[title, body_post]],
+    print(question)
+    result = pandas.DataFrame([[title, question]],
                               columns=["title", "body_post", ])
     result.to_excel(title + '.xlsx')
 
@@ -56,5 +57,5 @@ def scraper_post(url):
 
 
 if __name__ == "__main__":
-    url="https://www.digitalocean.com/blog/how-to-conduct-effective-code-reviews"
+    url="https://superuser.com/questions/467565/what-would-happen-if-i-changed-my-hostname-to-localhost"
     scraper_post(url)
