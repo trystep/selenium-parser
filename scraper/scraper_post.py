@@ -8,7 +8,7 @@ import pandas
 from scraper.parser_excel import parser_url
 
 
-def scraper_post(url):
+def scraper_post(url, index_url):
     options = webdriver.ChromeOptions()
 
     # Чтобы появлялось окно гугл-траслейта для выбора языка
@@ -32,7 +32,7 @@ def scraper_post(url):
     time.sleep(2)
 
     # Прокрутка страницы вниз, указываем кол-во нажатий вниз на странице
-    count = 25
+    count = 40
     action = ActionChains(driver)
     for i in range(count):
         action.send_keys(Keys.DOWN)
@@ -50,7 +50,7 @@ def scraper_post(url):
                               columns=["h1", "question_and_answers", ])
 
     # Сохраним результаты в Excel
-    result.to_excel(h1 + '.xlsx')
+    result.to_excel(str(index_url) + '_' + h1.replace('/', "")[:70] + '.xlsx')
 
     # Закрываем браузер
     driver.quit()
@@ -58,10 +58,10 @@ def scraper_post(url):
 
 if __name__ == "__main__":
     # Указываем кол-во постов, которые хотим спарсить
-    count = 2
-    i = 1
-    while i < count:
-        print("Сейчас парсится ссылка с номером " + str(i))
-        url = parser_url(i)
-        scraper_post(url)
-        i += 1
+    count = 1001
+    index_url = 581
+    while index_url < count:
+        print("Сейчас парсится ссылка с номером " + str(index_url))
+        url = parser_url(index_url)
+        scraper_post(url, index_url)
+        index_url += 1
