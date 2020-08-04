@@ -55,35 +55,28 @@ if __name__ == "__main__":
     connection = create_connection("postgres", "postgres", "postgres", "127.0.0.1", "5432")
 
     # Внутри дефолтной БД postgres создаем базу данных db
-    # create_database_query = "CREATE DATABASE db"
+    create_database_query = "CREATE DATABASE db"
     # create_database(connection, create_database_query)
 
     # Создадим внутри базы данных db таблицу content
     create_content_table = "CREATE TABLE IF NOT EXISTS content (id SERIAL PRIMARY KEY,title TEXT NOT NULL,post TEXT NOT NULL)"
     execute_query(connection, create_content_table)
 
-
     # Достаем данные для записи из спарсенных файлов
-    file = "results_scraper_post/94_Элемент выбора меню застрял на экране после закрытия контекстного или командного меню.xlsx"
+    file = "94_Элемент выбора меню застрял на экране после закрытия контекстного или командного меню.xlsx"
     title = parser_content_of_file(file)['title']
-    body_post=parser_content_of_file(file)['body_post']
-
+    body_post = parser_content_of_file(file)['body_post']
 
     # Вставим запись в таблицу content
-    content = [
-        (title, body_post)
-    ]
-    content_records = ", ".join(["%s"] * len(content))
-    insert_query = (
-        f"INSERT INTO content (title, post) VALUES {content_records}"
-    )
     connection.autocommit = True
     cursor = connection.cursor()
-    cursor.execute(insert_query, content)
+    SQL = "INSERT INTO content (title, post) VALUES (%s, %s);"
+    data = (title, body_post)
+    cursor.execute(SQL, data)
 
     # Выбор записей из таблицы
-    select_users = "SELECT * FROM content"
-    content = execute_read_query(connection, select_users)
+    select_content = "SELECT * FROM content"
+    content = execute_read_query(connection, select_content)
 
     for post in content:
         print(post)
@@ -91,5 +84,3 @@ if __name__ == "__main__":
     # Удаление записей таблицы
     # delete_post = "DELETE FROM content WHERE id = 3"
     # execute_query(connection, delete_post)
-
-

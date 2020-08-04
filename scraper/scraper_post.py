@@ -32,7 +32,7 @@ def scraper_post(url, index_url):
     time.sleep(2)
 
     # Прокрутка страницы вниз, указываем кол-во нажатий вниз на странице
-    count = 40
+    count = 20
     action = ActionChains(driver)
     for i in range(count):
         action.send_keys(Keys.DOWN)
@@ -58,8 +58,8 @@ def scraper_post(url, index_url):
 
 if __name__ == "__main__":
     # Указываем кол-во постов, которые хотим спарсить
-    count = 1001
-    index_url = 583
+    count = 54952
+    index_url = 1824
     while index_url < count:
         print("Сейчас парсится ссылка с номером " + str(index_url))
         url = parser_url(index_url)

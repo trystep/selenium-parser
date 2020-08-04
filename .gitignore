@@ -132,3 +132,4 @@ dmypy.json
 .idea
 results_scraper_post
 results_scraper_post/
+.xlsx
