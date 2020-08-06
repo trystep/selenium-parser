@@ -59,7 +59,7 @@ def scraper_post(url, index_url):
 if __name__ == "__main__":
     # Указываем кол-во постов, которые хотим спарсить
     count = 54952
-    index_url = 1824
+    index_url = 3912
     while index_url < count:
         print("Сейчас парсится ссылка с номером " + str(index_url))
         url = parser_url(index_url)

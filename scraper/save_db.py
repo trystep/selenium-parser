@@ -52,27 +52,27 @@ def execute_read_query(connection, query):
 
 if __name__ == "__main__":
     # Подключимся к БД
-    connection = create_connection("postgres", "postgres", "postgres", "127.0.0.1", "5432")
+    # sudo -u postgres psql
+    # \password postgres
+    # вводим пароль: postgres
+    # Создадим БД
+    # CREATE DATABASE db;
+    connection = create_connection("db", "postgres", "postgres", "127.0.0.1", "5432")
 
-    # Внутри дефолтной БД postgres создаем базу данных db
-    create_database_query = "CREATE DATABASE db"
-    # create_database(connection, create_database_query)
-
-    # Создадим внутри базы данных db таблицу content
-    create_content_table = "CREATE TABLE IF NOT EXISTS content (id SERIAL PRIMARY KEY,title TEXT NOT NULL,post TEXT NOT NULL)"
+    # Создадим внутри базы данных таблицу
+    create_content_table = "CREATE TABLE IF NOT EXISTS content (id SERIAL PRIMARY KEY, title TEXT NOT NULL, post TEXT NOT NULL)"
     execute_query(connection, create_content_table)
 
     # Достаем данные для записи из спарсенных файлов
-    file = "94_Элемент выбора меню застрял на экране после закрытия контекстного или командного меню.xlsx"
+    file = "results_scraper_post/94_Элемент выбора меню застрял на экране после закрытия контекстного или командного меню.xlsx"
     title = parser_content_of_file(file)['title']
-    body_post = parser_content_of_file(file)['body_post']
+    post = parser_content_of_file(file)['body_post']
 
-    # Вставим запись в таблицу content
+    # Вставим запись в таблицу
     connection.autocommit = True
     cursor = connection.cursor()
-    SQL = "INSERT INTO content (title, post) VALUES (%s, %s);"
-    data = (title, body_post)
-    cursor.execute(SQL, data)
+    sql = "INSERT INTO content (title, post) VALUES (%s, %s);"
+    cursor.execute(sql, (title, post))
 
     # Выбор записей из таблицы
     select_content = "SELECT * FROM content"
@@ -82,5 +82,5 @@ if __name__ == "__main__":
         print(post)
 
     # Удаление записей таблицы
-    # delete_post = "DELETE FROM content WHERE id = 3"
+    # delete_post = "DELETE FROM contents *"
     # execute_query(connection, delete_post)
