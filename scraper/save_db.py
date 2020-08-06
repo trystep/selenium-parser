@@ -1,3 +1,5 @@
+import os
+
 import psycopg2
 from psycopg2 import OperationalError
 from scraper.parser_excel import parser_content_of_file
@@ -63,24 +65,24 @@ if __name__ == "__main__":
     create_content_table = "CREATE TABLE IF NOT EXISTS content (id SERIAL PRIMARY KEY, title TEXT NOT NULL, post TEXT NOT NULL)"
     execute_query(connection, create_content_table)
 
-    # Достаем данные для записи из спарсенных файлов
-    file = "results_scraper_post/94_Элемент выбора меню застрял на экране после закрытия контекстного или командного меню.xlsx"
-    title = parser_content_of_file(file)['title']
-    post = parser_content_of_file(file)['body_post']
-
-    # Вставим запись в таблицу
-    connection.autocommit = True
-    cursor = connection.cursor()
-    sql = "INSERT INTO content (title, post) VALUES (%s, %s);"
-    cursor.execute(sql, (title, post))
+    # Достаем данные для записи из спарсенных файлов и записываем в БД
+    list_files=os.listdir(path="results_scraper_post")
+    # for file in list_files:
+    #     file = "results_scraper_post/"+file
+    #     title = parser_content_of_file(file)['title']
+    #     post = parser_content_of_file(file)['body_post']
+    #     # Вставим запись в таблицу
+    #     connection.autocommit = True
+    #     cursor = connection.cursor()
+    #     sql = "INSERT INTO content (title, post) VALUES (%s, %s);"
+    #     cursor.execute(sql, (title, post))
 
     # Выбор записей из таблицы
     select_content = "SELECT * FROM content"
     content = execute_read_query(connection, select_content)
-
-    for post in content:
-        print(post)
-
+    # for post in content:
+    #     print(post)
+    print("Количество записей в БД - "+str(len(content)))
     # Удаление записей таблицы
     # delete_post = "DELETE FROM contents *"
     # execute_query(connection, delete_post)
