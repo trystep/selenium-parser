@@ -18,7 +18,7 @@ def scraper_post(url, index_url):
     }
     options.add_experimental_option("prefs", prefs)
 
-    # Указываем опции выхова браузера и путь до драйвера в системе
+    # Указываем опции входа браузера и путь до драйвера в системе
     driver = webdriver.Chrome(options=options, executable_path='/usr/bin/chromedriver')
 
     # Сюда будем подставлять ссылки для парсинга
@@ -59,7 +59,7 @@ def scraper_post(url, index_url):
 if __name__ == "__main__":
     # Указываем кол-во постов, которые хотим спарсить
     count = 54952
-    index_url = 3912
+    index_url = 11866
     while index_url < count:
         print("Сейчас парсится ссылка с номером " + str(index_url))
         url = parser_url(index_url)

@@ -66,9 +66,9 @@ if __name__ == "__main__":
     execute_query(connection, create_content_table)
 
     # Достаем данные для записи из спарсенных файлов и записываем в БД
-    list_files=os.listdir(path="results_scraper_post")
+    list_files = os.listdir(path="results_scraper_post")
     # for file in list_files:
-    #     file = "results_scraper_post/"+file
+    #     file = "results_scraper_post/" + file
     #     title = parser_content_of_file(file)['title']
     #     post = parser_content_of_file(file)['body_post']
     #     # Вставим запись в таблицу
@@ -82,7 +82,7 @@ if __name__ == "__main__":
     content = execute_read_query(connection, select_content)
     # for post in content:
     #     print(post)
-    print("Количество записей в БД - "+str(len(content)))
+    print("Количество записей в БД - " + str(len(content)))
     # Удаление записей таблицы
     # delete_post = "DELETE FROM contents *"
     # execute_query(connection, delete_post)
