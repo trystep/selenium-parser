@@ -45,7 +45,6 @@ def scraper_post(url, index_url):
     h1 = driver.find_element_by_css_selector("#question-header > h1 > a").text
     # Получаем вопрос и ответы
     question_and_answers = driver.find_element_by_css_selector('#mainbar').get_attribute('outerHTML')
-    # TODO:: может нормально распарсить question_and_answers?
     result = pandas.DataFrame([[h1, question_and_answers, ]],
                               columns=["h1", "question_and_answers", ])
 

@@ -67,15 +67,15 @@ if __name__ == "__main__":
 
     # Достаем данные для записи из спарсенных файлов и записываем в БД
     list_files = os.listdir(path="results_scraper_post")
-    # for file in list_files:
-    #     file = "results_scraper_post/" + file
-    #     title = parser_content_of_file(file)['title']
-    #     post = parser_content_of_file(file)['body_post']
-    #     # Вставим запись в таблицу
-    #     connection.autocommit = True
-    #     cursor = connection.cursor()
-    #     sql = "INSERT INTO content (title, post) VALUES (%s, %s);"
-    #     cursor.execute(sql, (title, post))
+    for file in list_files:
+        file = "results_scraper_post/" + file
+        title = parser_content_of_file(file)['title']
+        post = parser_content_of_file(file)['body_post']
+        # Вставим запись в таблицу
+        connection.autocommit = True
+        cursor = connection.cursor()
+        sql = "INSERT INTO content (title, post) VALUES (%s, %s);"
+        cursor.execute(sql, (title, post))
 
     # Выбор записей из таблицы
     select_content = "SELECT * FROM content"
