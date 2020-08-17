@@ -5,7 +5,7 @@ import time
 import pyautogui
 import pandas
 
-from scraper.parser_excel import parser_url
+from scraper_stackoverflow.parser_excel import parser_url
 
 
 def scraper_post(url, index_url):
@@ -32,7 +32,7 @@ def scraper_post(url, index_url):
     time.sleep(2)
 
     # Прокрутка страницы вниз, указываем кол-во нажатий вниз на странице
-    count = 17
+    count = 20
     action = ActionChains(driver)
     for i in range(count):
         action.send_keys(Keys.DOWN)
@@ -42,9 +42,9 @@ def scraper_post(url, index_url):
 
     # Распарсим сраницу на элементы
     # Получаем заголовок поста
-    h1 = driver.find_element_by_css_selector("#question-header > h1 > a").text
+    h1 = driver.find_element_by_css_selector("#gatsby-focus-wrapper > div > div.container.blog.container-main.is-fullhd > div > div.container > div > a > h1").text
     # Получаем вопрос и ответы
-    question_and_answers = driver.find_element_by_css_selector('#mainbar').get_attribute('outerHTML')
+    question_and_answers = driver.find_element_by_css_selector('#gatsby-focus-wrapper > div > div.container.blog.container-main.is-fullhd > div > div.container > div > div.css-18vjzlq.e14hnn9a0').get_attribute('outerHTML')
     result = pandas.DataFrame([[h1, question_and_answers, ]],
                               columns=["h1", "question_and_answers", ])
 
@@ -57,8 +57,8 @@ def scraper_post(url, index_url):
 
 if __name__ == "__main__":
     # Указываем кол-во постов, которые хотим спарсить
-    count = 54952
-    index_url = 20094
+    count = 328
+    index_url = 1
     while index_url < count:
         print("Сейчас парсится ссылка с номером " + str(index_url))
         url = parser_url(index_url)

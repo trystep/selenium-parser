@@ -7,7 +7,7 @@ def parser_url(i):
     Парсит файл со списком ссылок и возвращает 1 ссылку
     """
     # Откроем файл Excel
-    workbook = xlrd.open_workbook('results_scraper_urls/all_urls_for_parser_1100.xlsx')
+    workbook = xlrd.open_workbook('results_scraper_urls/all_urls_for_parser.xlsx')
 
     # Загрузить определенный лист по имени
     worksheet = workbook.sheet_by_name('Лист 1')
