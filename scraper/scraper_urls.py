@@ -32,7 +32,7 @@ class ScrapingUrls:
             hrefs = soup.find_all("a", {"class": "question-hyperlink"}, href=True)
             for href in hrefs:
                 href = href["href"]
-                # Чтобы исключить появление ссылок типа https://superuser.comhttps://askubuntu.com/questions/...
+                #Чтобы исключить появление ссылок типа https://superuser.comhttps://askubuntu.com/questions/...
                 if not 'https://' in href:
                     href = "https://superuser.com" + href
                     result = result.append(pandas.DataFrame([href], columns=["href"], ), ignore_index=True)
