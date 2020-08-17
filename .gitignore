@@ -130,8 +130,4 @@ dmypy.json
 
 .idea/
 .idea
-results_scraper_post
-results_scraper_post/
-backup_posts_files
-backup_posts_files/
 *.xlsx

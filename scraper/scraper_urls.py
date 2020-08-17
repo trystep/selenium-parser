@@ -11,7 +11,7 @@ class ScrapingUrls:
 
     def gen_urls(self, count: int):
         url_base = "https://superuser.com/questions?tab=votes&page="
-        i = 4541
+        i = 5541
         list_urls = []
         while i < count:
             url = url_base + str(i)
@@ -43,4 +43,4 @@ if __name__ == "__main__":
     scraper_url = ScrapingUrls()
     # передаем желаемое количество страниц для сбора ссылок, с 1 страницы получаем примерно 50 ссылок на вопросы/ответы
     list_urls = scraper_url.gen_urls(8000)
-    scraper_url.get_urls(list_urls, 2)
+    scraper_url.get_urls(list_urls, 0)
